@@ -18,9 +18,27 @@ class CardController extends GetxController {
   void fetchData() async {
     try {
       isLoading(true);
-      var data = await ApiService().fetchData(query: searchQuery.value);
+      var data = await ApiService().fetchData();
       cardList.assignAll(data['data']);
     } catch (e) {
+      errorMessage(e.toString());
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  void searchData(String query) async {
+    try {
+      isLoading(true);
+      var data = await ApiService().searchData(query);
+      if (kDebugMode) {
+        print('Searched data: $data');
+      }
+      cardList.assignAll(data['data']);
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error: $e');
+      }
       errorMessage(e.toString());
     } finally {
       isLoading(false);
@@ -32,6 +50,6 @@ class CardController extends GetxController {
       print('Updating search query: $query');
     }
     searchQuery(query);
-    fetchData();
+    searchData(query);
   }
 }
