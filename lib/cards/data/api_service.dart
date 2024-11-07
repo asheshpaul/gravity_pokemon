@@ -5,8 +5,9 @@ import 'package:http/http.dart' as http;
 class ApiService {
   final String apiUrl = "https://api.pokemontcg.io/v2/cards";
 
-  Future<Map<String, dynamic>> fetchData() async {
-    final url = Uri.parse('$apiUrl?page=1&pageSize=10');
+  Future<Map<String, dynamic>> fetchData(String query) async {
+    final url = Uri.parse(
+        '$apiUrl?${query.isEmpty ? 'page=1&pageSize=10' : 'q=set.name:$query'}');
     if (kDebugMode) {
       print('Fetching data from: $url');
     }
@@ -25,7 +26,7 @@ class ApiService {
     }
   }
 
-  Future<Map<String, dynamic>> searchData(String query) async {
+  /*Future<Map<String, dynamic>> searchData(String query) async {
     final url = Uri.parse('$apiUrl?q=set.name:$query');
     if (kDebugMode) {
       print('Searching data from: $url');
@@ -43,10 +44,10 @@ class ApiService {
       }
       throw Exception('Failed to load data');
     }
-  }
-  // final String apiUrl = "https://api.pokemontcg.io/v2/cards?page=1&pageSize=10";
+  }*/
+// final String apiUrl = "https://api.pokemontcg.io/v2/cards?page=1&pageSize=10";
 
-  /*Future<Map<String, dynamic>> fetchData() async {
+/*Future<Map<String, dynamic>> fetchData() async {
     final response = await http.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {

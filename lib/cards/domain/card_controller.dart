@@ -11,14 +11,14 @@ class CardController extends GetxController {
 
   @override
   void onInit() {
-    fetchData();
+    fetchData('');
     super.onInit();
   }
 
-  void fetchData() async {
+  void fetchData(String query) async {
     try {
       isLoading(true);
-      var data = await ApiService().fetchData();
+      var data = await ApiService().fetchData(query);
       cardList.assignAll(data['data']);
     } catch (e) {
       errorMessage(e.toString());
@@ -27,7 +27,7 @@ class CardController extends GetxController {
     }
   }
 
-  void searchData(String query) async {
+  /*void searchData(String query) async {
     try {
       isLoading(true);
       var data = await ApiService().searchData(query);
@@ -43,13 +43,14 @@ class CardController extends GetxController {
     } finally {
       isLoading(false);
     }
-  }
+  }*/
 
   void updateSearchQuery(String query) {
     if (kDebugMode) {
       print('Updating search query: $query');
     }
     searchQuery(query);
-    searchData(query);
+    fetchData(query);
+    // searchData(query);
   }
 }
