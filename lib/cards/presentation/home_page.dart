@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               if (isSearching.value) {
                 searchController.clear();
-                cardController.updateSearchQuery('');
+                cardController.fetchData();
                 isSearching(false);
               } else {
                 isSearching(true);
