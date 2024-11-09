@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gravity_pokemon/widgets/card_tile.dart';
 
-import '../domain/card_controller.dart';
+import '../controllers/card_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               if (isSearching.value) {
                 searchController.clear();
-                cardController.updateSearchQuery('');
+                cardController.fetchData('');
                 isSearching(false);
               } else {
                 isSearching(true);
@@ -69,7 +69,8 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Get.toNamed('/details', arguments: card);
                   },
-                  child: Card(
+                  child: CardTile(card: card),
+                  /*child: Card(
                     child: Column(
                       children: [
                         Flexible(
@@ -93,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                  ),
+                  ),*/
                 );
               },
             );

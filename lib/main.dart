@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'cards/presentation/card_detail_page.dart';
-import 'cards/presentation/home_page.dart';
+import 'views/card_detail_page.dart';
+import 'views/home_page.dart';
 
 void main() {
   runApp(const MyApp());

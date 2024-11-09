@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import '../models/card_model.dart';
+
 class CardDetailPage extends StatelessWidget {
   const CardDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final card = Get.arguments;
+    final CardModel card = Get.arguments;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(card['name']),
+        title: Text(card.name),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -20,9 +22,9 @@ class CardDetailPage extends StatelessWidget {
           children: [
             Center(
               child: Hero(
-                tag: card['id'],
+                tag: card.name,
                 child: CachedNetworkImage(
-                  imageUrl: card['images']['large'],
+                  imageUrl: card.imageUrl,
                   placeholder: (context, url) =>
                       const CircularProgressIndicator(),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -30,21 +32,17 @@ class CardDetailPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Text('Name: ${card['name']}',
+            Text('Name: ${card.name}',
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            Text('Type: ${card['types'].join(', ')}',
+            Text('Type: ${card.type}', style: const TextStyle(fontSize: 16)),
+            Text('Set: ${card.setName}', style: const TextStyle(fontSize: 16)),
+            Text('Artist: ${card.artist}',
                 style: const TextStyle(fontSize: 16)),
-            Text('Set: ${card['set']['name']}',
+            Text('Weaknesses: ${card.weaknesses.join(', ')}',
                 style: const TextStyle(fontSize: 16)),
-            Text('Artist: ${card['artist']}',
+            Text('Attacks: ${card.attacks.join(', ')}',
                 style: const TextStyle(fontSize: 16)),
-            Text(
-                'Weaknesses: ${card['weaknesses'].map((w) => w['type']).join(', ')}',
-                style: const TextStyle(fontSize: 16)),
-            Text('Attacks: ${card['attacks'].map((a) => a['name']).join(', ')}',
-                style: const TextStyle(fontSize: 16)),
-            // Add more details as needed
           ],
         ),
       ),

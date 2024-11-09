@@ -1,13 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
-import '../data/api_service.dart';
+import '../models/card_model.dart';
+import '../services/api_service.dart';
 
 class CardController extends GetxController {
-  var cardList = <dynamic>[].obs;
+  var cardList = <CardModel>[].obs;
+
+  // var cardList = <dynamic>[].obs;
   var isLoading = true.obs;
   var errorMessage = ''.obs;
   final searchQuery = ''.obs;
+  Timer? _debounce;
 
   @override
   void onInit() {
@@ -19,7 +25,7 @@ class CardController extends GetxController {
     try {
       isLoading(true);
       var data = await ApiService().fetchData(query);
-      cardList.assignAll(data['data']);
+      cardList.assignAll(data);
     } catch (e) {
       errorMessage(e.toString());
     } finally {
@@ -46,11 +52,23 @@ class CardController extends GetxController {
   }*/
 
   void updateSearchQuery(String query) {
-    if (kDebugMode) {
+    searchQuery(query);
+    if (query.length < 3) {
+      return;
+    }
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      if (kDebugMode) {
+        print('Updating search query: $query');
+      }
+      fetchData(query);
+    });
+  }
+/*if (kDebugMode) {
       print('Updating search query: $query');
     }
     searchQuery(query);
     fetchData(query);
     // searchData(query);
-  }
+  }*/
 }
